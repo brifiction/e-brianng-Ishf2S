@@ -1,13 +1,10 @@
-import type { RacingResponse, Race } from "@/types/racing";
-import { hasRaceExpired } from "@/utils/dates";
+import type { Race, RacingResponse } from "@/types/racing";
 import { RACE_CATEGORIES } from "@/types/racing";
+import { hasRaceExpired } from "@/utils/dates";
 
-const ALLOWED_CATEGORY_IDS = RACE_CATEGORIES.map(cat => cat.id);
+const ALLOWED_CATEGORY_IDS = RACE_CATEGORIES.map((cat) => cat.id);
 
-export function filterAndSortRaces(
-  races: RacingResponse | null,
-  currentTime: number
-): Race[] {
+export function filterAndSortRaces(races: RacingResponse | null, currentTime: number): Race[] {
   if (!races) return [];
 
   const raceList = Object.values(races.data.race_summaries);

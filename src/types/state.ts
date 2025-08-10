@@ -7,10 +7,7 @@ export type RacesState = {
 };
 
 export type FetchRacesPayload = {
-  commit: (
-    mutation: string,
-    payload?: RacingResponse | boolean | string | null
-  ) => void;
+  commit: (mutation: string, payload?: RacingResponse | boolean | string | null) => void;
 };
 
 export interface RootState {

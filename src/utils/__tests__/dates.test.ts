@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getRaceStartTime, getTimeUntilRace, hasRaceExpired } from "../dates";
 
 describe("Date Utilities", () => {
@@ -42,22 +42,22 @@ describe("Date Utilities", () => {
   });
 
   describe("hasRaceExpired", () => {
-    it('should return false for races that have not started yet', () => {
+    it("should return false for races that have not started yet", () => {
       const futureTime = Math.floor((Date.now() + 60000) / 1000);
       expect(hasRaceExpired(futureTime)).toBe(false);
     });
 
-    it('should return false for races that just started', () => {
+    it("should return false for races that just started", () => {
       const justStartedTime = Math.floor(Date.now() / 1000);
       expect(hasRaceExpired(justStartedTime)).toBe(false);
     });
 
-    it('should return true for races that started more than 1 minute ago', () => {
+    it("should return true for races that started more than 1 minute ago", () => {
       const pastTime = Math.floor((Date.now() - 120000) / 1000);
       expect(hasRaceExpired(pastTime)).toBe(true);
     });
 
-    it('should return true for races that started exactly 1 minute ago', () => {
+    it("should return true for races that started exactly 1 minute ago", () => {
       const oneMinuteAgo = Math.floor((Date.now() - 65000) / 1000);
       expect(hasRaceExpired(oneMinuteAgo)).toBe(true);
     });

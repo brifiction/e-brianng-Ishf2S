@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useStore } from "vuex";
+import { calculateCountdowns, filterAndSortRaces } from "@/utils/races";
 import RaceList from "./RaceList.vue";
-import { filterAndSortRaces, calculateCountdowns } from "@/utils/races";
 
 const store = useStore();
 const currentTime = ref(Date.now());

@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
-import { filterAndSortRaces, calculateCountdowns } from "../races";
+import { describe, expect, it } from "vitest";
 import type { RacingResponse } from "@/types/racing";
 import { RACE_CATEGORIES } from "@/types/racing";
+import { calculateCountdowns, filterAndSortRaces } from "../races";
 
 const mockRacingResponse: RacingResponse = {
   status: 200,
@@ -106,9 +106,7 @@ describe("Races Utility", () => {
       expect(result).toHaveLength(5);
 
       for (const race of result) {
-        const isAllowedCategory = RACE_CATEGORIES.some(
-          (cat) => cat.id === race.category_id
-        );
+        const isAllowedCategory = RACE_CATEGORIES.some((cat) => cat.id === race.category_id);
         expect(isAllowedCategory).toBe(true);
       }
     });
@@ -160,9 +158,7 @@ describe("Races Utility", () => {
         const timeLeft = race.advertised_start.seconds * 1000 - currentTime;
         const expectedMinutes = Math.floor(timeLeft / 60000);
         const expectedSeconds = Math.floor((timeLeft % 60000) / 1000);
-        const expectedFormat = `${expectedMinutes}:${expectedSeconds
-          .toString()
-          .padStart(2, "0")}`;
+        const expectedFormat = `${expectedMinutes}:${expectedSeconds.toString().padStart(2, "0")}`;
 
         expect(countdown).toBe(expectedFormat);
       }

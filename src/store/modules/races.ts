@@ -1,7 +1,7 @@
-import type { Race, RacingResponse } from "@/types/racing";
-import { getNextRaces } from "@/services/racingApi";
 import type { Module } from "vuex";
-import type { RacesState, RootState, FetchRacesPayload } from "@/types/state";
+import { getNextRaces } from "@/services/racingApi";
+import type { Race, RacingResponse } from "@/types/racing";
+import type { FetchRacesPayload, RacesState, RootState } from "@/types/state";
 
 export const races: Module<RacesState, RootState> = {
   namespaced: true,
@@ -33,8 +33,7 @@ export const races: Module<RacesState, RootState> = {
         const races = await getNextRaces(count);
         commit("SET_RACES", races);
       } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : "Failed to fetch races";
+        const errorMessage = error instanceof Error ? error.message : "Failed to fetch races";
         commit("SET_ERROR", errorMessage);
       } finally {
         commit("SET_LOADING", false);

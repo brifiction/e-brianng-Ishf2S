@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { RACE_CATEGORIES, type RacingResponse } from "@/types/racing";
 import { getNextRaces, getRacesByCategories } from "../racingApi";
-import { type RacingResponse, RACE_CATEGORIES } from "@/types/racing";
 
 // Mock fetch globally
 const mockFetch = vi.fn();
@@ -142,9 +142,7 @@ describe("RacingApiService", () => {
           })
       );
 
-      await expect(getNextRaces(5, { timeout: 50 })).rejects.toThrow(
-        "Request timeout"
-      );
+      await expect(getNextRaces(5, { timeout: 50 })).rejects.toThrow("Request timeout");
     });
   });
 
@@ -162,8 +160,7 @@ describe("RacingApiService", () => {
 
       expect(result.data.next_to_go_ids).toHaveLength(5);
 
-      const filteredRace =
-        result.data.race_summaries[result.data.next_to_go_ids[0]];
+      const filteredRace = result.data.race_summaries[result.data.next_to_go_ids[0]];
 
       expect(filteredRace.category_id).toBe(RACE_CATEGORIES[0].id);
       expect(filteredRace.race_name).toBe("Race 1");
@@ -202,11 +199,7 @@ describe("RacingApiService", () => {
         json: async () => mockApiResponse,
       } as Response);
 
-      const categoryIds = [
-        RACE_CATEGORIES[0].id,
-        RACE_CATEGORIES[1].id,
-        RACE_CATEGORIES[2].id,
-      ];
+      const categoryIds = [RACE_CATEGORIES[0].id, RACE_CATEGORIES[1].id, RACE_CATEGORIES[2].id];
       const result = await getRacesByCategories(categoryIds, 10);
 
       expect(result.data.next_to_go_ids.length).toBeGreaterThan(0);
