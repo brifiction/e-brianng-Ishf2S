@@ -16,8 +16,10 @@ export type Race = {
 export type RacingResponse = {
   status: number;
   data: {
-    next_to_go: Race[];
+    next_to_go_ids: string[];
+    race_summaries: Record<string, Race>;
   };
+  message: string;
 };
 
 export type RaceCategory = {
