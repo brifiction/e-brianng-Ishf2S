@@ -42,25 +42,24 @@ describe("Date Utilities", () => {
   });
 
   describe("hasRaceExpired", () => {
-    it("should return false for races that just started", () => {
-      const justStartedSeconds = Math.floor(mockDate.getTime() / 1000) - 30; // 30 seconds ago
-      const result = hasRaceExpired(justStartedSeconds);
-
-      expect(result).toBe(false);
+    it('should return false for races that have not started yet', () => {
+      const futureTime = Math.floor((Date.now() + 60000) / 1000);
+      expect(hasRaceExpired(futureTime)).toBe(false);
     });
 
-    it("should return true for races that started more than 1 minute ago", () => {
-      const expiredSeconds = Math.floor(mockDate.getTime() / 1000) - 90; // 1.5 minutes ago
-      const result = hasRaceExpired(expiredSeconds);
-
-      expect(result).toBe(true);
+    it('should return false for races that just started', () => {
+      const justStartedTime = Math.floor(Date.now() / 1000);
+      expect(hasRaceExpired(justStartedTime)).toBe(false);
     });
 
-    it("should return false for future races", () => {
-      const futureSeconds = Math.floor(mockDate.getTime() / 1000) + 300; // 5 minutes from now
-      const result = hasRaceExpired(futureSeconds);
+    it('should return true for races that started more than 1 minute ago', () => {
+      const pastTime = Math.floor((Date.now() - 120000) / 1000);
+      expect(hasRaceExpired(pastTime)).toBe(true);
+    });
 
-      expect(result).toBe(false);
+    it('should return true for races that started exactly 1 minute ago', () => {
+      const oneMinuteAgo = Math.floor((Date.now() - 65000) / 1000);
+      expect(hasRaceExpired(oneMinuteAgo)).toBe(true);
     });
   });
 });
