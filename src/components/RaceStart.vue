@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, onUnmounted } from "vue";
-import { getRacesByCategories } from "@/services/racingApi";
-import type { RacingResponse } from "@/types/racing";
+import { computed, onMounted, onUnmounted, ref } from "vue";
+import { useStore } from "vuex";
 import RaceList from "./RaceList.vue";
 import { filterAndSortRaces, calculateCountdowns } from "@/utils/races";
-import { RACE_CATEGORIES } from "@/types/racing";
 
-const races = ref<RacingResponse | null>(null);
-const loading = ref(false);
-const error = ref<string | null>(null);
+const store = useStore();
 const currentTime = ref(Date.now());
+
+const races = computed(() => store.getters["races/getRaces"]);
+const loading = computed(() => store.getters["races/isLoading"]);
+const error = computed(() => store.getters["races/getError"]);
 
 const filteredRaces = computed(() => {
   return filterAndSortRaces(races.value, currentTime.value);
@@ -19,21 +19,6 @@ const countdownTimers = computed(() => {
   return calculateCountdowns(filteredRaces.value, currentTime.value);
 });
 
-const fetchRaces = async () => {
-  loading.value = true;
-  error.value = null;
-
-  try {
-    const categoryIds = RACE_CATEGORIES.map((cat) => cat.id);
-    const response = await getRacesByCategories(categoryIds, 10);
-    races.value = response;
-  } catch (err) {
-    error.value = err instanceof Error ? err.message : "Failed to fetch races";
-  } finally {
-    loading.value = false;
-  }
-};
-
 const updateTime = () => {
   currentTime.value = Date.now();
 };
@@ -41,7 +26,7 @@ const updateTime = () => {
 let intervalId: ReturnType<typeof setInterval>;
 
 onMounted(() => {
-  fetchRaces();
+  store.dispatch("races/fetchRaces", 10);
   intervalId = setInterval(updateTime, 1000);
 });
 
