@@ -38,7 +38,7 @@ export async function getNextRaces(
 
 export async function getRacesByCategories(
   categoryIds: string[],
-  count = 5,
+  count = 10,
   config: ApiConfig = {}
 ): Promise<RacingResponse> {
   const response = await getNextRaces(count, config);

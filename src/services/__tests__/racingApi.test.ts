@@ -92,7 +92,7 @@ const mockApiResponse: RacingResponse = {
       },
     },
   },
-  message: "Next example 6 races from each category",
+  message: "Next 10 races from each category",
 };
 
 describe("RacingApiService", () => {
@@ -157,7 +157,7 @@ describe("RacingApiService", () => {
 
       const result = await getRacesByCategories(
         [RACE_CATEGORIES[0].id, RACE_CATEGORIES[1].id, RACE_CATEGORIES[2].id],
-        5
+        10
       );
 
       expect(result.data.next_to_go_ids).toHaveLength(5);
@@ -176,7 +176,7 @@ describe("RacingApiService", () => {
       } as Response);
 
       const nonExistentCategoryId = "non-existent-id";
-      const result = await getRacesByCategories([nonExistentCategoryId], 3);
+      const result = await getRacesByCategories([nonExistentCategoryId], 10);
 
       expect(result.data.next_to_go_ids).toHaveLength(0);
     });
@@ -187,7 +187,7 @@ describe("RacingApiService", () => {
         json: async () => mockApiResponse,
       } as Response);
 
-      const result = await getRacesByCategories([RACE_CATEGORIES[0].id], 3);
+      const result = await getRacesByCategories([RACE_CATEGORIES[0].id], 10);
 
       expect(result.status).toBe(200);
       expect(result.data).toBeDefined();
@@ -207,7 +207,7 @@ describe("RacingApiService", () => {
         RACE_CATEGORIES[1].id,
         RACE_CATEGORIES[2].id,
       ];
-      const result = await getRacesByCategories(categoryIds, 5);
+      const result = await getRacesByCategories(categoryIds, 10);
 
       expect(result.data.next_to_go_ids.length).toBeGreaterThan(0);
 
